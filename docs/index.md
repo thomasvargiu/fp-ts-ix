@@ -1,3 +1,8 @@
+---
+title: Home
+nav_order: 1
+---
+
 [fp-ts](https://github.com/gcanti/fp-ts) bindings for [IxJS](https://github.com/ReactiveX/IxJS) asynciterable
 
 # Implemented instances
@@ -22,7 +27,7 @@ const fa = pipe(
 
 # Chain
 
-Different `Chain` instances are provided in order to support `flatMap` (merge), `concatMap` and ` switchMap`:
+Different `Chain` instances are provided in order to support `flatMap` (merge), `concatMap` and ` switchMap`:
 
 ```ts
 import { from } from 'ix/asynciterable'
@@ -34,41 +39,40 @@ import * as AIs from 'fp-ts-ix/AsyncIterable/Switch'
 
 const fa = pipe(
   from([1, 2]),
-  chain(AIc.Chain)(a => from([3, 4])),
+  chain(AIc.Chain)((a) => from([3, 4]))
 )
 // will emit 1, 2, 3, 4
 
 const fb = pipe(
   from([1, 2]),
-  chain(AIm.Chain)(a => from([3, 4])),
+  chain(AIm.Chain)((a) => from([3, 4]))
 )
 // will emit 1, 3, 4, 4 (parallel processing)
 
 const fc = pipe(
   from([1, 2]),
-  chain(AIs.Chain)(a => from([3, 4])),
+  chain(AIs.Chain)((a) => from([3, 4]))
 )
 // will emit 3, 4 (switchMap)
-
 
 //
 // Or you can use already provided pipable functions from Chain modules
 //
 const fa2 = pipe(
   from([1, 2]),
-  AIc.chain(a => from([3, 4])),
+  AIc.chain((a) => from([3, 4]))
 )
 // will emit 1, 2, 3, 4
 
 const fb2 = pipe(
   from([1, 2]),
-  AIm.chain(a => from([3, 4])),
+  AIm.chain((a) => from([3, 4]))
 )
 // will emit 1, 3, 4, 4 (parallel processing)
 
 const fb2 = pipe(
   from([1, 2]),
-  AIs.chain(a => from([3, 4])),
+  AIs.chain((a) => from([3, 4]))
 )
 // will emit 3, 4 (switchMap)
 ```
@@ -81,7 +85,7 @@ The stable version is tested against TypeScript 4.8
 
 | ixjs version | fp-ts-rxjs version |
 | ------------ | ------------------ |
-| `ix@5`       | `fp-ts-ix@0.1.x` |
+| `ix@5`       | `fp-ts-ix@0.1.x`   |
 
 # Documentation
 

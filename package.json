@@ -1,0 +1,87 @@
+{
+  "name": "fp-ts-ix",
+  "version": "0.1.0",
+  "description": "fp-ts binding for ixjs",
+  "main": "lib/index.js",
+  "module": "es6/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.ts\"",
+    "jest-clear-cache": "jest --clearCache",
+    "prettier": "prettier --list-different \"./{src,test,examples,scripts}/**/*.ts\"",
+    "fix-prettier": "prettier --write \"./{src,test,examples,scripts}/**/*.ts\"",
+    "jest": "jest",
+    "test": "npm run lint && npm run prettier && npm run jest && npm run docs",
+    "clean": "rimraf ./dist",
+    "prebuild": "npm run clean",
+    "build": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build-es6.json && ts-node scripts/build",
+    "postbuild": "prettier --loglevel=silent --write \"./dist/**/*.ts\"",
+    "prepublishOnly": "ts-node scripts/pre-publish",
+    "mocha": "mocha -r ts-node/register test/*.ts",
+    "docs": "docs-ts",
+    "prerelease": "npm run build",
+    "release": "ts-node scripts/release",
+    "dpdm": "dpdm --warning=false --tree=false --exit-code circular:1 -T src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomasvargiu/fp-ts-ix.git"
+  },
+  "author": "Thomas Vargiu <tvargiu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thomasvargiu/fp-ts-ix/issues"
+  },
+  "homepage": "https://github.com/thomasvargiu/fp-ts-ix",
+  "dependencies": {
+    "@reactivex/ix-es5-cjs": "^5.0.0",
+    "fp-ts": "^2.12.3"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.0.0",
+    "@types/jest": "^28.0.0 || ^29.0.0",
+    "@types/node": "^14.17",
+    "@types/prettier": "2.7.0",
+    "@typescript-eslint/eslint-plugin": "^5.36.2",
+    "@typescript-eslint/parser": "^5.36.2",
+    "abortcontroller-polyfill": "^1.7.3",
+    "docs-ts": "^0.6.10",
+    "eslint": "^8.23.0",
+    "eslint-plugin-deprecation": "^1.3.2",
+    "fast-check": "^3.1.3",
+    "glob": "^8.0.3",
+    "jest": "^28.0.0 || ^29.0.2",
+    "prettier": "^2.7.1",
+    "rimraf": "3.0.2",
+    "ts-jest": "^28.0.8",
+    "ts-node": "^10.9.1",
+    "tslint": "6.1.3",
+    "typescript": "^4.8.2"
+  },
+  "tags": [
+    "typescript",
+    "functional-programming",
+    "fp-ts",
+    "ix",
+    "ixjs",
+    "ix-js",
+    "iterable",
+    "iterator",
+    "asynciterable",
+    "asynciterator",
+    "async-iterable"
+  ],
+  "keywords": [
+    "typescript",
+    "functional-programming",
+    "fp-ts",
+    "ix",
+    "ixjs",
+    "ix-js",
+    "iterable",
+    "iterator",
+    "asynciterable",
+    "asynciterator",
+    "async-iterable"
+  ]
+}
