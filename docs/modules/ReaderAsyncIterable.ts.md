@@ -47,6 +47,8 @@ Added in v0.1.0
   - [chainTaskK](#chaintaskk)
   - [chainWithIndex](#chainwithindex)
   - [chainWithIndexW](#chainwithindexw)
+  - [concat](#concat)
+  - [concatW](#concatw)
   - [flap](#flap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -453,6 +455,30 @@ export declare const chainWithIndexW: (
 ```
 
 Added in v0.1.0
+
+## concat
+
+**Signature**
+
+```ts
+export declare const concat: <R, A>(
+  second: ReaderAsyncIterable<R, A>
+) => (first: ReaderAsyncIterable<R, A>) => ReaderAsyncIterable<R, A>
+```
+
+Added in v0.1.1
+
+## concatW
+
+**Signature**
+
+```ts
+export declare const concatW: <R2, B>(
+  second: ReaderAsyncIterable<R2, B>
+) => <R, A>(first: ReaderAsyncIterable<R, A>) => ReaderAsyncIterable<R2 & R, B | A>
+```
+
+Added in v0.1.1
 
 ## flap
 

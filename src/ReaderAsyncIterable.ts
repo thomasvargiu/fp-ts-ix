@@ -749,5 +749,22 @@ export const ApT: ReaderAsyncIterable<unknown, readonly []> =
   of([])
 
 // -------------------------------------------------------------------------------------
-// array utils
+// utils
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 0.1.1
+ */
+export const concatW: <R2, B>(
+  second: ReaderAsyncIterable<R2, B>
+) => <R, A>(first: ReaderAsyncIterable<R, A>) => ReaderAsyncIterable<R2 & R, A | B> = (second) => (first) => (r) =>
+  pipe(first(r), AI.concatW(second(r)))
+
+/**
+ * @category combinators
+ * @since 0.1.1
+ */
+export const concat: <R, A>(
+  second: ReaderAsyncIterable<R, A>
+) => (first: ReaderAsyncIterable<R, A>) => ReaderAsyncIterable<R, A> = concatW

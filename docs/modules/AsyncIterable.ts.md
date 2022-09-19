@@ -108,6 +108,8 @@ Added in v0.1.0
   - [getMonadTask](#getmonadtask)
   - [getMonoid](#getmonoid)
   - [of](#of)
+  - [toTask](#totask)
+  - [toTaskOption](#totaskoption)
 
 ---
 
@@ -1111,3 +1113,23 @@ export declare const of: <A>(a: A) => AsyncIterable<A>
 ```
 
 Added in v0.1.0
+
+## toTask
+
+**Signature**
+
+```ts
+export declare const toTask: <B>(onEmpty: Lazy<B>) => <A>(ma: AsyncIterable<A>) => T.Task<B | A>
+```
+
+Added in v0.1.1
+
+## toTaskOption
+
+**Signature**
+
+```ts
+export declare const toTaskOption: <A>(ma: AsyncIterable<A>) => T.Task<O.Option<A>>
+```
+
+Added in v0.1.1

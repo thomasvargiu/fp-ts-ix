@@ -39,6 +39,8 @@ import * as IX from '@reactivex/ix-es5-cjs/asynciterable'
 import * as IXO from '@reactivex/ix-es5-cjs/asynciterable/operators'
 import type { ChainWithIndex1 } from './ChainWithIndex'
 import type { MonadAsyncIterable1 } from './MonadAsyncIterable'
+import * as T from 'fp-ts/Task'
+import * as ROA from 'fp-ts/ReadonlyArray'
 
 /**
  * @category instances
@@ -720,6 +722,22 @@ export const fromTaskEither: NaturalTransformation21<TEURI, URI> = (ma) =>
     IX.defer(() => IX.from(ma())),
     IXO.concatMap(fromEither)
   )
+
+/**
+ * @category utils
+ * @since 0.1.1
+ */
+export const toTask =
+  <B>(onEmpty: Lazy<B>) =>
+  <A>(ma: AsyncIterable<A>): T.Task<A | B> =>
+    pipe(toTaskOption(ma), T.map(O.getOrElseW(onEmpty)))
+
+/**
+ * @category utils
+ * @since 0.1.1
+ */
+export const toTaskOption = <A>(ma: AsyncIterable<A>): T.Task<O.Option<A>> =>
+  pipe(() => pipe(ma, takeRight(1), IX.toArray), T.map(ROA.head))
 
 /**
  * @since 0.1.0

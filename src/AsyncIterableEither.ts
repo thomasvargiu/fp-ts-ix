@@ -5,13 +5,16 @@
  *
  * @since 0.1.0
  */
-import type { Applicative2, Applicative2C } from 'fp-ts/Applicative'
+import { Applicative2, Applicative2C } from 'fp-ts/Applicative'
 import { ap as ap_, apFirst as apFirst_, Apply1, Apply2, apS as apS_, apSecond as apSecond_ } from 'fp-ts/Apply'
 import type { Bifunctor2 } from 'fp-ts/Bifunctor'
 import { bind as bind_, chainFirst as chainFirst_, Chain1, Chain2 } from 'fp-ts/Chain'
 import { compact as compact_, Compactable2C, separate as separate_ } from 'fp-ts/Compactable'
 import * as E from 'fp-ts/Either'
 import * as ET from 'fp-ts/EitherT'
+import * as O from 'fp-ts/Option'
+import * as T from 'fp-ts/Task'
+import * as TE from 'fp-ts/TaskEither'
 import {
   filter as filter_,
   Filterable2C,
@@ -429,6 +432,39 @@ export const of: <E = never, A = never>(a: A) => AsyncIterableEither<E, A> = rig
  * @since 0.1.0
  */
 export const throwError: MonadThrow2<URI>['throwError'] = left
+
+/**
+ * @category utils
+ * @since 0.1.1
+ */
+export const toTaskEitherW =
+  <E2, B>(onEmpty: Lazy<TE.TaskEither<E2, B>>) =>
+  <E, A>(ma: AsyncIterableEither<E, A>): TE.TaskEither<E | E2, A | B> =>
+    pipe(ma, AI.toTaskOption, T.chain<O.Option<E.Either<E, A>>, E.Either<E | E2, B | A>>(O.matchW(onEmpty, T.of)))
+
+/**
+ * @category utils
+ * @since 0.1.1
+ */
+export const toTaskEither: <E, A>(
+  onEmpty: Lazy<TE.TaskEither<E, A>>
+) => (ma: AsyncIterableEither<E, A>) => TE.TaskEither<E, A> = toTaskEitherW
+
+/**
+ * @category combinators
+ * @since 0.1.1
+ */
+export const concatW: <E2, B>(
+  second: AsyncIterableEither<E2, B>
+) => <E, A>(first: AsyncIterableEither<E, A>) => AsyncIterableEither<E2 | E, A | B> = AI.concatW
+
+/**
+ * @category combinators
+ * @since 0.1.1
+ */
+export const concat: <E, A>(
+  second: AsyncIterableEither<E, A>
+) => (first: AsyncIterableEither<E, A>) => AsyncIterableEither<E, A> = concatW
 
 // -------------------------------------------------------------------------------------
 // instances

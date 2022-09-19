@@ -1743,3 +1743,24 @@ export const apSW: <A, N extends string, R2, E2, B>(
 export const ApT: ReaderAsyncIterableEither<unknown, never, readonly []> =
   /*#__PURE__*/
   of([])
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 0.1.1
+ */
+export const concatW: <R2, E2, B>(
+  second: ReaderAsyncIterableEither<R2, E2, B>
+) => <R, E, A>(first: ReaderAsyncIterableEither<R, E, A>) => ReaderAsyncIterableEither<R2 & R, E | E2, A | B> =
+  RAI.concatW
+
+/**
+ * @category combinators
+ * @since 0.1.1
+ */
+export const concat: <R, E, A>(
+  second: ReaderAsyncIterableEither<R, E, A>
+) => (first: ReaderAsyncIterableEither<R, E, A>) => ReaderAsyncIterableEither<R, E, A> = concatW

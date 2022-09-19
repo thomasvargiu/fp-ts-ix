@@ -81,6 +81,8 @@ Added in v0.1.0
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainWithIndex](#chainwithindex)
+  - [concat](#concat)
+  - [concatW](#concatw)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
@@ -1031,6 +1033,30 @@ export declare const chainWithIndex: (
 ```
 
 Added in v0.1.0
+
+## concat
+
+**Signature**
+
+```ts
+export declare const concat: <R, E, A>(
+  second: ReaderAsyncIterableEither<R, E, A>
+) => (first: ReaderAsyncIterableEither<R, E, A>) => ReaderAsyncIterableEither<R, E, A>
+```
+
+Added in v0.1.1
+
+## concatW
+
+**Signature**
+
+```ts
+export declare const concatW: <R2, E2, B>(
+  second: ReaderAsyncIterableEither<R2, E2, B>
+) => <R, E, A>(first: ReaderAsyncIterableEither<R, E, A>) => ReaderAsyncIterableEither<R2 & R, E2 | E, B | A>
+```
+
+Added in v0.1.1
 
 ## filterOrElse
 

@@ -11,6 +11,7 @@ import * as E from 'fp-ts/Either'
 import { sequenceT } from 'fp-ts/lib/Apply'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as S from 'fp-ts/string'
+import * as TE from 'fp-ts/TaskEither'
 import { left, right } from 'fp-ts/Separated'
 
 const deepStrictEqual =
@@ -859,5 +860,79 @@ describe('AsyncIterableEither', () => {
         deepStrictEqual(['a0', 'b1', 'c2'].map(E.right))
       )
     })
+  })
+
+  it.concurrent('toTaskEitherW', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        _.right<Error, number>(4),
+        _.toTaskEitherW(() => TE.right<string, string>('a'))
+      )(),
+      E.right(4)
+    )
+    assert.deepStrictEqual(
+      await pipe(
+        _.left(4),
+        _.toTaskEitherW(() => TE.right('a'))
+      )(),
+      E.left(4)
+    )
+    assert.deepStrictEqual(
+      await pipe(
+        AI.empty,
+        _.toTaskEitherW(() => TE.right('a'))
+      )(),
+      E.right('a')
+    )
+    assert.deepStrictEqual(
+      await pipe(
+        AI.empty,
+        _.toTaskEitherW(() => TE.left('a'))
+      )(),
+      E.left('a')
+    )
+  })
+
+  it.concurrent('toTaskEither', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        _.right<Error, number>(4),
+        _.toTaskEither(() => TE.right(1))
+      )(),
+      E.right(4)
+    )
+    assert.deepStrictEqual(
+      await pipe(
+        _.left<number, string>(4),
+        _.toTaskEither(() => TE.right('a'))
+      )(),
+      E.left(4)
+    )
+    assert.deepStrictEqual(
+      await pipe(
+        AI.empty,
+        _.toTaskEither(() => TE.right('a'))
+      )(),
+      E.right('a')
+    )
+    assert.deepStrictEqual(
+      await pipe(
+        AI.empty,
+        _.toTaskEither(() => TE.left('a'))
+      )(),
+      E.left('a')
+    )
+  })
+
+  it.concurrent('concatW', async () => {
+    await pipe(
+      _.right<Error, string>('a'),
+      _.concatW(_.right<string, number>(2)),
+      deepStrictEqual([E.right('a'), E.right(2)])
+    )
+  })
+
+  it.concurrent('concat', async () => {
+    await pipe(_.right<Error, string>('a'), _.concat(_.right('b')), deepStrictEqual([E.right('a'), E.right('b')]))
   })
 })

@@ -815,4 +815,22 @@ describe('ReaderAsyncIterableEither', () => {
       deepStrictEqual([1, 1, 2, 2, 3, 3, 4, 4].map(E.right))
     )
   })
+
+  it.concurrent('concatW', async () => {
+    await pipe(
+      _.of<{ foo: string }, Error, string>('a'),
+      _.concatW(_.of<{ bar: number }, string, number>(2)),
+      (r) => r({ foo: '', bar: 1 }),
+      deepStrictEqual([E.right('a'), E.right(2)])
+    )
+  })
+
+  it.concurrent('concat', async () => {
+    await pipe(
+      _.of<{ foo: string }, Error, string>('a'),
+      _.concat(_.of('b')),
+      (r) => r({ foo: '' }),
+      deepStrictEqual([E.right('a'), E.right('b')])
+    )
+  })
 })

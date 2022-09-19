@@ -54,6 +54,8 @@ Added in v0.1.0
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainWithIndex](#chainwithindex)
+  - [concat](#concat)
+  - [concatW](#concatw)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
@@ -143,6 +145,8 @@ Added in v0.1.0
   - [getMonadIO](#getmonadio)
   - [getMonadTask](#getmonadtask)
   - [getMonoid](#getmonoid)
+  - [toTaskEither](#totaskeither)
+  - [toTaskEitherW](#totaskeitherw)
 
 ---
 
@@ -557,7 +561,7 @@ export declare const chainOptionK: (
   AIC: AIChain
 ) => <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => (ma: AsyncIterableEither<E, A>) => AsyncIterableEither<E, B>
+) => <A, B>(f: (a: A) => O.Option<B>) => (ma: AsyncIterableEither<E, A>) => AsyncIterableEither<E, B>
 ```
 
 Added in v0.1.0
@@ -577,6 +581,30 @@ export declare const chainWithIndex: (
 ```
 
 Added in v0.1.0
+
+## concat
+
+**Signature**
+
+```ts
+export declare const concat: <E, A>(
+  second: AsyncIterableEither<E, A>
+) => (first: AsyncIterableEither<E, A>) => AsyncIterableEither<E, A>
+```
+
+Added in v0.1.1
+
+## concatW
+
+**Signature**
+
+```ts
+export declare const concatW: <E2, B>(
+  second: AsyncIterableEither<E2, B>
+) => <E, A>(first: AsyncIterableEither<E, A>) => AsyncIterableEither<E2 | E, B | A>
+```
+
+Added in v0.1.1
 
 ## filterOrElse
 
@@ -723,7 +751,7 @@ Added in v0.1.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => AsyncIterableEither<E, B>
+) => <A, B>(f: (...a: A) => O.Option<B>) => (...a: A) => AsyncIterableEither<E, B>
 ```
 
 Added in v0.1.0
@@ -915,7 +943,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E = never, A = never>(me: Task<E>) => AsyncIterableEither<E, A>
+export declare const leftTask: <E = never, A = never>(me: T.Task<E>) => AsyncIterableEither<E, A>
 ```
 
 Added in v0.1.0
@@ -955,7 +983,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export declare const rightTask: <E = never, A = never>(ma: Task<A>) => AsyncIterableEither<E, A>
+export declare const rightTask: <E = never, A = never>(ma: T.Task<A>) => AsyncIterableEither<E, A>
 ```
 
 Added in v0.1.0
@@ -1412,7 +1440,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export declare const fromTaskEither: <E = never, A = never>(me: TaskEither<E, A>) => AsyncIterableEither<E, A>
+export declare const fromTaskEither: <E = never, A = never>(me: TE.TaskEither<E, A>) => AsyncIterableEither<E, A>
 ```
 
 Added in v0.1.0
@@ -1586,3 +1614,27 @@ export declare const getMonoid: <E = never, A = never>(
 ```
 
 Added in v0.1.0
+
+## toTaskEither
+
+**Signature**
+
+```ts
+export declare const toTaskEither: <E, A>(
+  onEmpty: Lazy<TE.TaskEither<E, A>>
+) => (ma: AsyncIterableEither<E, A>) => TE.TaskEither<E, A>
+```
+
+Added in v0.1.1
+
+## toTaskEitherW
+
+**Signature**
+
+```ts
+export declare const toTaskEitherW: <E2, B>(
+  onEmpty: Lazy<TE.TaskEither<E2, B>>
+) => <E, A>(ma: AsyncIterableEither<E, A>) => TE.TaskEither<E2 | E, B | A>
+```
+
+Added in v0.1.1

@@ -571,4 +571,26 @@ describe('AsyncIterable', () => {
       await pipe(right(s), deepStrictEqual([5]))
     })
   })
+
+  it.concurrent('toTask', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        _.fromArray([1, 2, 3]),
+        _.toTask(() => 4)
+      )(),
+      3
+    )
+    assert.deepStrictEqual(
+      await pipe(
+        _.fromArray([]),
+        _.toTask(() => 4)
+      )(),
+      4
+    )
+  })
+
+  it.concurrent('toTaskOption', async () => {
+    assert.deepStrictEqual(await pipe(_.fromArray([1, 2, 3]), _.toTaskOption)(), O.some(3))
+    assert.deepStrictEqual(await pipe(_.fromArray([]), _.toTaskOption)(), O.none)
+  })
 })
