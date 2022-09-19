@@ -1,6 +1,6 @@
 {
   "name": "fp-ts-ix",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "fp-ts binding for ixjs",
   "main": "lib/index.js",
   "module": "es6/index.js",
